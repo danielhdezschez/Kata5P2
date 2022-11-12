@@ -14,6 +14,7 @@ import kata5.model.Histogram;
 import kata5.model.Mail;
 import kata5.view.MailHistogramBuilder;
 import kata5.view.MailListReader;
+import kata5.view.MailListReaderBD;
 /**
  *
  * @author yadai
@@ -21,12 +22,17 @@ import kata5.view.MailListReader;
 public class Kata5 {
     public static void main(String[] args) throws IOException {
  
-	List<Mail> emails_valid = MailListReader.read("C:\\Users\\yadai\\Documents\\NetBeansProjects\\Kata4\\src\\kata4\\main\\email.txt"); 
+	// List<Mail> emails_valid = MailListReader.read("C:\\Users\\yadai\\Documents\\NetBeansProjects\\Kata5P2\\src\\kata5\\main\\email.txt"); 
         
-        Histogram<String> histogram = MailHistogramBuilder.build(emails_valid);
+        MailListReaderBD cox = new MailListReaderBD("C:\\Users\\yadai\\Documents\\NetBeansProjects\\Kata5P2\\src\\kata5\\main\\KATA5.db");
+        cox.connect();
+        List<Mail> emails = cox.read();
+        Histogram<String> histogram = MailHistogramBuilder.build(emails);
 
         //view
         HistogramDisplay histogramDisplay = new HistogramDisplay("HISTOGRAM DISPLAY", histogram);
         histogramDisplay.execute();
+        
+        cox.close();
     }
 }
